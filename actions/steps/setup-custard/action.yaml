@@ -42,8 +42,8 @@ runs:
           const fs = require('node:fs');
           const path = require('path');
           const contents = await github.request('GET /repos/{owner}/{repo}/contents/{path}', {
-            owner: 'GoogleCloudPlatform',
-            repo: 'cloud-samples-tools',
+            owner: 'glasnt',
+            repo: 'trifle',
             path: 'scripts/src/custard.ts',
             ref: '${{ inputs.version }}',
             headers: {

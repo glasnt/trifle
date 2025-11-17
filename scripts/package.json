@@ -2,13 +2,13 @@
   "name": "custard",
   "version": "0.2.6",
   "description": "Cloud samples tools",
-  "homepage": "https://github.com/GoogleCloudPlatform/cloud-samples-tools#readme",
+  "homepage": "https://github.com/glasnt/trifle#readme",
   "bugs": {
-    "url": "https://github.com/GoogleCloudPlatform/cloud-samples-tools/issues"
+    "url": "https://github.com/glasnt/trifle/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GoogleCloudPlatform/cloud-samples-tools.git"
+    "url": "git+https://github.com/glasnt/trifle.git"
   },
   "license": "Apache-2.0",
   "author": "",
