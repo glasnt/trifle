@@ -34,7 +34,7 @@ runs:
       uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
       with:
         script: |
-          const { spawnSync } = await import("node:child_process");
+          const { spawnSync, execSync } = await import("node:child_process");
 
           const cmd = "${{ inputs.command }}";
           const paths = ${{ inputs.paths }};
@@ -43,8 +43,7 @@ runs:
           }
           const outputsAlways = ${{ inputs.outputs-always }};
 
-          const b = spawnSync("which", ["bash"], {cwd: path}).stdout
-          console.log(`bash check: ${b}`)
+          console.error("bash exists: ", execSync("which bash").toString().trim())
 
           let failed = [];
           for (const path of paths) {
