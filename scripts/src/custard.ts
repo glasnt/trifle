@@ -124,7 +124,7 @@ switch (process.env.CUSTARD_VERBOSE || 'info') {
  * @returns list of affected packages
  */
 export function affected(config: Config, diffs: string[], checkoutPath: string): string[] {
-  console.log(`affected: current directory ${process.cwd()}`);
+  console.error(`affected: current directory ${process.cwd()}`);
   const packages = matchPackages(config, diffs, checkoutPath);
   if (packages.includes('.')) {
     console.error(
@@ -173,10 +173,10 @@ export function fileMatchesConfig(config: Config, filepath: string): boolean {
 
 export function matchPackages(config: Config, paths: string[], checkoutPath: string): string[] {
   const packages = new Set<string>();
-  console.log("🎒 matchPackages debugging")
-  console.log("pwd: ", execSync("pwd").toString().trim())
-  console.log("ls: ", checkoutPath, execSync(`ls ${checkoutPath}`).toString().trim())
-  console.log("🎒 end of debugging")
+  console.error("🎒 matchPackages debugging")
+  console.error("pwd: ", execSync("pwd").toString().trim())
+  console.error("ls: ", checkoutPath, execSync(`ls ${checkoutPath}`).toString().trim())
+  console.error("🎒 end of debugging")
   for (const filepath of paths) {
     if (!fileMatchesConfig(config, filepath)) {
       // The file doesn't match the config file, so skip it.
