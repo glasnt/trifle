@@ -50,13 +50,13 @@ runs:
   using: composite
   steps:
     - name: Get job
-      uses: glasnt/trifle/actions/steps/get-job@v0.0.5
+      uses: glasnt/trifle/actions/steps/get-job@v0.0.7
       if: inputs.if
       id: job
       with:
         job-name: ${{ inputs.job-name }}
     - name: Create check ${{ inputs.check-status }}
-      uses: glasnt/trifle/actions/steps/create-status@v0.0.5
+      uses: glasnt/trifle/actions/steps/create-status@v0.0.7
       id: check
       with:
         sha: ${{ inputs.sha }}

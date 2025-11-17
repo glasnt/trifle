@@ -33,7 +33,7 @@ on:
       custard-version:
         description: Custard version to install.
         type: string
-        default: v0.0.6  # x-release-please-version
+        default: v0.0.7  # x-release-please-version
       create-check-if:
         description: Creates a check if true, otherwise no check is created.
         type: boolean
@@ -70,7 +70,7 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: Check queued
-        uses: glasnt/trifle/actions/steps/create-check@v0.0.5
+        uses: glasnt/trifle/actions/steps/create-check@v0.0.7
         id: queued
         with:
           sha: ${{ inputs.head-sha }}
@@ -80,7 +80,7 @@ jobs:
           job-name: ${{ github.job }}
           if: ${{ inputs.create-check-if }}
       - name: Find affected packages
-        uses: glasnt/trifle/actions/steps/affected@v0.0.5
+        uses: glasnt/trifle/actions/steps/affected@v0.0.7
         id: custard
         with:
           config-file: ${{ inputs.config-file }}
@@ -89,14 +89,14 @@ jobs:
           paths: ${{ inputs.paths }}
           custard-version: ${{ inputs.custard-version }}
       - name: Check in_progress
-        uses: glasnt/trifle/actions/steps/update-check@v0.0.5
+        uses: glasnt/trifle/actions/steps/update-check@v0.0.7
         id: in_progress
         with:
           check: ${{ steps.queued.outputs.check }}
           status: in_progress
           title: Running ${{ steps.custard.outputs.num-paths }} package(s)
       - name: Check success
-        uses: glasnt/trifle/actions/steps/update-check@v0.0.5
+        uses: glasnt/trifle/actions/steps/update-check@v0.0.7
         id: final_status
         if: success()
         with:
@@ -104,7 +104,7 @@ jobs:
           status: success
           title: Completed finding ${{ steps.custard.outputs.num-paths }} package(s)
       - name: Check failure
-        uses: glasnt/trifle/actions/steps/update-check@v0.0.5
+        uses: glasnt/trifle/actions/steps/update-check@v0.0.7
         if: failure()
         with:
           check: ${{ steps.queued.outputs.check }}
