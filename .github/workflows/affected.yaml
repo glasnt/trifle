@@ -109,7 +109,7 @@ jobs:
           status: success
           title: Completed finding ${{ steps.custard.outputs.num-paths }} package(s)
       - name: Check failure
-        uses: glasnt/trifle/actions/steps/update-check@v0.4.0
+        uses: glasnt/trifle/actions/steps/update-check@v0.0.0
         if: failure()
         with:
           check: ${{ steps.queued.outputs.check }}
