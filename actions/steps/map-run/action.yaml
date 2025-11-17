@@ -51,7 +51,7 @@ runs:
             let stderr = "";
             let status = "";
             try {
-              const p = spawnSync("bash", ["-c", cmd], {cwd: path});
+              const p = spawnSync("/usr/bin/bash", ["-c", cmd], {cwd: path});
               console.error(p)
               console.error(p.status)
               console.error(p.stdout)
