@@ -62,11 +62,11 @@ runs:
             }
             if (outputsAlways || failed.includes(path)) {
               console.log('---- stdout ----');
-              console.log(stdout || "");
+              console.log(stdout || "(none)");
               console.log('---- stderr ----');
-              console.log(stderr || "");
+              console.log(stderr || "(none)");
               console.log('---- status ----');
-              console.log(status || "");
+              console.log(status || "(none)");
             }
           }
           console.log("=== Summary ===");
