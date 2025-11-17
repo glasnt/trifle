@@ -173,6 +173,7 @@ export function fileMatchesConfig(config: Config, filepath: string): boolean {
 
 export function matchPackages(config: Config, paths: string[]): string[] {
   const packages = new Set<string>();
+  console.log("🎒 matchPackages debugging")
   console.log(execSync("pwd"))
   console.log(execSync("ls"))
   for (const filepath of paths) {
