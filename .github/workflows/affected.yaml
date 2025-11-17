@@ -74,7 +74,7 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: Check queued
-        uses: glasnt/trifle/actions/steps/create-check@v0.0.3
+        uses: glasnt/trifle/actions/steps/create-check@v0.0.5
         id: queued
         with:
           sha: ${{ inputs.head-sha }}
@@ -84,7 +84,7 @@ jobs:
           job-name: ${{ github.job }}
           if: ${{ inputs.create-check-if }}
       - name: Find affected packages
-        uses: glasnt/trifle/actions/steps/affected@v0.0.3
+        uses: glasnt/trifle/actions/steps/affected@v0.0.5
         id: custard
         with:
           config-file: ${{ inputs.config-file }}
@@ -94,14 +94,14 @@ jobs:
           custard-version: ${{ inputs.custard-version }}
           go-version: ${{ inputs.go-version }}
       - name: Check in_progress
-        uses: glasnt/trifle/actions/steps/update-check@v0.0.3
+        uses: glasnt/trifle/actions/steps/update-check@v0.0.5
         id: in_progress
         with:
           check: ${{ steps.queued.outputs.check }}
           status: in_progress
           title: Running ${{ steps.custard.outputs.num-paths }} package(s)
       - name: Check success
-        uses: glasnt/trifle/actions/steps/update-check@v0.0.3
+        uses: glasnt/trifle/actions/steps/update-check@v0.0.5
         id: final_status
         if: success()
         with:
@@ -109,7 +109,7 @@ jobs:
           status: success
           title: Completed finding ${{ steps.custard.outputs.num-paths }} package(s)
       - name: Check failure
-        uses: glasnt/trifle/actions/steps/update-check@v0.0.3
+        uses: glasnt/trifle/actions/steps/update-check@v0.0.5
         if: failure()
         with:
           check: ${{ steps.queued.outputs.check }}
