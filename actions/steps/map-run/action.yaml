@@ -43,6 +43,8 @@ runs:
           }
           const outputsAlways = ${{ inputs.outputs-always }};
 
+          console.log("Checking for Bash:", spawnSync("which", "bash").toString().trim())
+
           let failed = [];
           for (const path of paths) {
             let stdout = "";
