@@ -47,6 +47,7 @@ runs:
           for (const path of paths) {
             let stdout = "";
             let stderr = "";
+            let status = "";
             try {
               const p = spawnSync("bash", ["-c", cmd], {cwd: path});
               if (status === 0) {
