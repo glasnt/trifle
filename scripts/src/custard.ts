@@ -174,8 +174,9 @@ export function fileMatchesConfig(config: Config, filepath: string): boolean {
 export function matchPackages(config: Config, paths: string[]): string[] {
   const packages = new Set<string>();
   console.log("🎒 matchPackages debugging")
-  console.log(execSync("pwd").toString().trim())
-  console.log(execSync("ls").toString().trim())
+  console.log("pwd: ", execSync("pwd").toString().trim())
+  console.log("ls: ", execSync("ls").toString().trim())
+  console.log("🎒 end of debugging")
   for (const filepath of paths) {
     if (!fileMatchesConfig(config, filepath)) {
       // The file doesn't match the config file, so skip it.
