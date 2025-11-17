@@ -46,10 +46,6 @@ on:
         description: Name of the check created by this workflow.
         type: string
         default: Custard CI
-      timeout-minutes:
-        description: Timeout to find affected packages.
-        type: number
-        default: 2
 
     outputs:
       paths:
@@ -75,7 +71,7 @@ jobs:
       num-paths: ${{ steps.custard.outputs.num-paths }}
       ci-setups: ${{ steps.custard.outputs.ci-setups }}
       check: ${{ steps.final_status.outputs.check }}
-    timeout-minutes: ${{ inputs.timeout-minutes }}
+    timeout-minutes: 2
     steps:
       - name: Check queued
         uses: glasnt/trifle/actions/steps/create-check@v0.0.0
