@@ -29,7 +29,7 @@ inputs:
     description: Comma-separated package paths instead of git diff.
   custard-version:
     description: Custard version to install.
-    default: v0.0.1
+    default: v0.0.3
   install-path:
     description: Path to install the Custard script to.
     default: custard.ts
@@ -52,7 +52,7 @@ runs:
   using: composite
   steps:
     - name: Setup Custard
-      uses: glasnt/trifle/actions/steps/setup-custard@v0.0.1
+      uses: glasnt/trifle/actions/steps/setup-custard@v0.0.3
       with:
         install-path: ${{ inputs.install-path }}
     # Find the affected packages.

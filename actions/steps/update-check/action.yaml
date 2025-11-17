@@ -39,7 +39,7 @@ runs:
   steps:
     - name: Update check
       if: ${{ inputs.check }}
-      uses: glasnt/trifle/actions/steps/create-status@v0.0.1
+      uses: glasnt/trifle/actions/steps/create-status@v0.0.3
       id: check
       with:
         sha: ${{ fromJson(inputs.check).sha }}
