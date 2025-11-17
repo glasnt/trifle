@@ -80,7 +80,7 @@ jobs:
           job-name: ${{ github.job }}
           if: ${{ inputs.create-check-if }}
       - name: Find affected packages
-        uses: glasnt/trifle/actions/steps/affected@v0.0.10
+        uses: glasnt/trifle/actions/steps/affected@debugging-matchPackages
         id: custard
         with:
           config-file: ${{ inputs.config-file }}
