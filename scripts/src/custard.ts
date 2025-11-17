@@ -124,6 +124,7 @@ switch (process.env.CUSTARD_VERBOSE || 'info') {
  * @returns list of affected packages
  */
 export function affected(config: Config, diffs: string[]): string[] {
+  console.log(`affected: current directory ${process.cwd()}`);
   const packages = matchPackages(config, diffs);
   if (packages.includes('.')) {
     console.error(
