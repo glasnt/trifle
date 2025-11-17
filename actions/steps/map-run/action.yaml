@@ -52,6 +52,7 @@ runs:
               console.log(`✅ [${path}]: ${cmd}`);
               stdout = p.stdout && p.stdout.toString("utf8");
               stderr = p.stderr && p.stderr.toString("utf8");
+              status = p.status;
             } catch (e) {
               failed.push(path);
               console.log(`❌ [${path}]: ${cmd} (exit code ${e.status})`);
@@ -64,6 +65,8 @@ runs:
               console.log(stdout || "");
               console.log('---- stderr ----');
               console.log(stderr || "");
+              console.log('---- status ----');
+              console.log(status || "");
             }
           }
           console.log("=== Summary ===");
