@@ -173,6 +173,8 @@ export function fileMatchesConfig(config: Config, filepath: string): boolean {
 
 export function matchPackages(config: Config, paths: string[]): string[] {
   const packages = new Set<string>();
+  console.log(execSync("pwd"))
+  console.log(execSync("ls"))
   for (const filepath of paths) {
     if (!fileMatchesConfig(config, filepath)) {
       // The file doesn't match the config file, so skip it.
