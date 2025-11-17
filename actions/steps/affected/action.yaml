@@ -52,7 +52,7 @@ runs:
   using: composite
   steps:
     - name: Setup Custard
-      uses: GoogleCloudSamples/.cloud-samples-tools/actions/steps/setup-custard
+      uses: glasnt/trifle/actions/steps/setup-custard@v0.0.1
       with:
         install-path: ${{ inputs.install-path }}
     # Find the affected packages.
