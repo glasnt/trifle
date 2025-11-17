@@ -55,6 +55,7 @@ runs:
       uses: glasnt/trifle/actions/steps/setup-custard@debugging-matchPackages
       with:
         install-path: ${{ inputs.install-path }}
+        ref: debugging-matchPackages
     # Find the affected packages.
     - name: Checkout the commit history
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
