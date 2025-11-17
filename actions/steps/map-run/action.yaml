@@ -50,6 +50,7 @@ runs:
             let status = "";
             try {
               const p = spawnSync("bash", ["-c", cmd], {cwd: path});
+              status = p.status;
               if (status === 0) {
                   console.log(`✅ [${path}]: ${cmd}`);
               } else {
@@ -58,10 +59,9 @@ runs:
               }
               stdout = p.stdout && p.stdout.toString("utf8");
               stderr = p.stderr && p.stderr.toString("utf8");
-              status = p.status;
             } catch (e) {
               failed.push(path);
-              console.log(`❌ [${path}]: ${cmd} (exit code ${e.status})`);
+              console.log(`🚫 [${path}]: ${cmd} (exit code ${e.status})`);
               core.error(e.message);
               stdout = e.stdout && e.stdout.toString("utf8");
               stderr = e.stderr && e.stderr.toString("utf8");
