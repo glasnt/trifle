@@ -29,6 +29,12 @@ inputs:
 runs:
   using: composite
   steps:
+    # Node is available in the default github runner, but at an order version
+    # that does not support TS by default. So, update the Node version used here.
+    - name: Setup Node
+      uses: actions/setup-node@v6
+      with:
+        node-version: 24
     - name: Install Custard
       uses: actions/github-script@v8
       with:
@@ -48,5 +54,3 @@ runs:
           const filename = "${{ inputs.install-path }}";
           fs.mkdirSync(path.dirname(filename), { recursive: true });
           fs.writeFileSync(filename, contents.data);
-    - run: node ${{ inputs.install-path }} version
-      shell: bash
