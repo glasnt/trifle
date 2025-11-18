@@ -126,6 +126,7 @@ switch (process.env.CUSTARD_VERBOSE || 'info') {
 export function affected(config: Config, diffs: string[], checkoutPath: string): string[] {
   console.error(`affected: current directory ${process.cwd()}`);
   const packages = matchPackages(config, diffs, checkoutPath);
+  console.error("Packages: ", packages)
   if (packages.includes('.')) {
     console.error(
       '⚠️ One or more global files changed, all packages affected.',
@@ -173,10 +174,6 @@ export function fileMatchesConfig(config: Config, filepath: string): boolean {
 
 export function matchPackages(config: Config, paths: string[], checkoutPath: string): string[] {
   const packages = new Set<string>();
-  console.error("🎒 matchPackages debugging")
-  console.error("pwd: ", execSync("pwd").toString().trim())
-  console.error("ls: ", checkoutPath, execSync(`ls ${checkoutPath}`).toString().trim())
-  console.error("🎒 end of debugging")
   for (const filepath of paths) {
     if (!fileMatchesConfig(config, filepath)) {
       // The file doesn't match the config file, so skip it.
@@ -221,6 +218,7 @@ export function* findPackages(config: Config, root: string): Generator<string> {
 export function getPackageDir(config: Config, filepath: string, checkoutPath: string): string | null {
   const dir = path.dirname(path.join(checkoutPath, filepath));
   if (!fs.existsSync(dir)) {
+    console.error(`path.dirname for ${checkoutPath}/${filepath} does not exist.`)
     return null;
   }
   if (dir === '.' || isPackageDir(config, dir)) {
