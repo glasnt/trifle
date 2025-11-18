@@ -209,8 +209,8 @@ export function* findPackages(config: Config, root: string): Generator<string> {
 
       console.error(`  is a directory`)
       if (isPackageDir(config, fullPath) && !excluded.includes(fullPath)) {
-        console.error(`    is a package. Return`)
-        yield fullPath;
+        console.error(`    is a package. Return relative ${path.relative(root, fullPath)}`)
+        yield path.relative(root, fullPath);
       }
       yield* findPackages(config, fullPath);
     }
