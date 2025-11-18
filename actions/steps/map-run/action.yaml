@@ -53,12 +53,18 @@ runs:
             };
             options.cwd = path;
 
-            const status = await exec.exec("bash", ["-c", cmd], options);
+            console.log(`🧪 running ${cmd} in ${path}`)
+            try {
+              const status = await exec.exec("bash", ["-c", cmd], options);
 
-            if (status === 0) {
-                console.log(`✅ [${path}]: ${cmd}`);
-            } else {
-                console.log(`❌ [${path}]: ${cmd} (exit code ${status})`);
+              if (status === 0) {
+                  console.log(`✅ [${path}]: ${cmd}`);
+              } else {
+                  console.log(`❌ [${path}]: ${cmd} (exit code ${status})`);
+                  failed.push(path);
+              }
+            } catch (e) {
+                console.log(`🚫 [${path}]: ${cmd} failed to execute`);
                 failed.push(path);
             }
 
