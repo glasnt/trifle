@@ -204,8 +204,12 @@ export function* findPackages(config: Config, root: string): Generator<string> {
   const files = fs.readdirSync(root, {withFileTypes: true});
   for (const file of files) {
     const fullPath = path.join(root, file.name);
+    console.error(`  ${fullPath}`)
     if (file.isDirectory()) {
+
+      console.error(`  is a directory`)
       if (isPackageDir(config, fullPath) && !excluded.includes(fullPath)) {
+        console.error(`    is a package. Return`)
         yield fullPath;
       }
       yield* findPackages(config, fullPath);
@@ -863,6 +867,7 @@ function main(argv: string[]) {
       }
       const diffs = fs.readFileSync(diffsFile, 'utf8').trim().split('\n');
       const packages = affected(config, diffs, checkoutPath);
+      console.log("affected packages:")
       for (const pkg of packages) {
         console.log(pkg);
       }
