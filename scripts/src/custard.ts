@@ -207,7 +207,6 @@ export function* findPackages(config: Config, root: string): Generator<string> {
     const fullPath = path.join(root, file.name);
     if (file.isDirectory()) {
       if (isPackageDir(config, fullPath) && !excluded.includes(fullPath)) {
-        console.error(`  ${fullPath} is a package directory.`)
         yield fullPath;
       }
       yield* findPackages(config, fullPath);
