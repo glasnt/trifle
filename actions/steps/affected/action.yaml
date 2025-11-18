@@ -84,9 +84,8 @@ runs:
     - name: Find affected packages
       id: custard
       shell: bash
-      working-directory: ${{ inputs.checkout-path }}
       run: |
-        node ${{ inputs.install-path }} affected ${{ inputs.config-file }} diffs.txt | tee paths.txt
+        node ${{ inputs.install-path }} affected ${{ inputs.checkout-path }}/${{ inputs.config-file }} diffs.txt ${{ inputs.checkout-path }} | tee paths.txt
         PATHS=$(jq -Rcn '[inputs]' paths.txt)
         echo "paths=$PATHS" >> $GITHUB_OUTPUT
         echo "num-paths=$(echo $PATHS | jq length)" >> $GITHUB_OUTPUT
