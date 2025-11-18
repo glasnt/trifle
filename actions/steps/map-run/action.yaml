@@ -35,7 +35,7 @@ runs:
       with:
         script: |
           const cmd = "${{ inputs.command }}";
-          const paths = ${{ inputs.paths }};
+          const paths = ${{ inputs.paths || ["."] }};
           if (paths.length === 0) {
             console.log("Nothing to do.");
           }
@@ -46,10 +46,8 @@ runs:
             let stderr = "";
             let status = "";
 
-
             console.log(await exec.exec("pwd"))
             console.log(await exec.exec("ls", ["-R"]))
-
 
             const p = await exec.exec("bash", ["-c", cmd], {cwd: path});
 
