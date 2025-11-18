@@ -66,8 +66,7 @@ runs:
                   failed.push(path);
               }
             } catch (e) {
-                console.log(`🚫 [${path}]: ${cmd} failed to execute`);
-                console.log(e)
+                console.log(`❌ [${path}]: ${cmd} failed`);
                 failed.push(path);
             }
 
