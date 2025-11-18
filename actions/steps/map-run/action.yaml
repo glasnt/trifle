@@ -44,6 +44,7 @@ runs:
 
           let stdout = "";
           let stderr = "";
+          let status = "";
           let failed = [];
           for (const path of paths) {
             const options = {};
