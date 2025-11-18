@@ -191,6 +191,7 @@ export function matchPackages(config: Config, paths: string[], checkoutPath: str
       console.error(`⚠️ Global file changed: ${pkg}`);
     }
     packages.add(pkg);
+  }
 
   // Return all the affected packages, removing any excluded ones.
   // Excluded packages must be exact full matches.
