@@ -34,7 +34,7 @@ runs:
       uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
       with:
         script: |
-          const { spawnSync, execSync } = await import("child_process");
+          const { spawnSync } = await import("child_process");
 
           const cmd = "${{ inputs.command }}";
           const paths = ${{ inputs.paths }};
@@ -47,28 +47,29 @@ runs:
             let stdout = "";
             let stderr = "";
             let status = "";
-            try {
-              const p = spawnSync("bash", ["-c", cmd], {cwd: path});
-              console.error(p)
-              console.error(p.status)
-              console.error(p.stdout)
-              console.error(p.stderr)
-              status = p.status;
-              if (status === 0) {
-                  console.log(`✅ [${path}]: ${cmd}`);
-              } else {
-                  console.log(`❌ [${path}]: ${cmd} (exit code ${status})`);
-                  failed.push(path);
-              }
-              stdout = p.stdout && p.stdout.toString("utf8");
-              stderr = p.stderr && p.stderr.toString("utf8");
-            } catch (e) {
+
+            const p = spawnSync("bash", ["-c", cmd], {cwd: path});
+            console.error(p)
+            console.error(p.status)
+            console.error(p.stdout)
+            console.error(p.stderr)
+
+            status = p.status;
+            stdout = p.stdout && p.stdout.toString("utf8");
+            stderr = p.stderr && p.stderr.toString("utf8");
+
+            error = p.error;
+            if (p.error) {
+              core.error(p.error.message)
               failed.push(path);
-              console.log(`🚫 [${path}]: ${cmd} (exit code ${e.status})`);
-              core.error(e.message);
-              stdout = e.stdout && e.stdout.toString("utf8");
-              stderr = e.stderr && e.stderr.toString("utf8");
+              console.log(`🚫 [${path}]: ${cmd} (exit code ${status})`);
+            } else if (status === 0) {
+                console.log(`✅ [${path}]: ${cmd}`);
+            } else {
+                console.log(`❌ [${path}]: ${cmd} (exit code ${status})`);
+                failed.push(path);
             }
+
             if (outputsAlways || failed.includes(path)) {
               console.log('---- stdout ----');
               console.log(stdout || "");
