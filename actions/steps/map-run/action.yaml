@@ -47,7 +47,7 @@ runs:
             let status = "";
 
 
-            console.log(exec.exec("pwd")
+            console.log(exec.exec("pwd"))
             console.log(exec.exec("ls", [path]))
 
 
