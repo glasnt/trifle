@@ -44,8 +44,8 @@ runs:
           for (const path of paths) {
             const options = {};
             options.listeners = {
-              stdout: (data: Buffer) => { stdout += data.toString(); },
-              stderr: (data: Buffer) => { stderr += data.toString(); }
+              stdout: (data) => { stdout += data.toString(); },
+              stderr: (data) => { stderr += data.toString(); }
             };
             options.cwd = path;
 
