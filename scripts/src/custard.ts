@@ -216,12 +216,15 @@ export function* findPackages(config: Config, root: string): Generator<string> {
 }
 
 export function getPackageDir(config: Config, filepath: string, checkoutPath: string): string | null {
-  const dir = path.dirname(path.join(checkoutPath, filepath));
-  if (!fs.existsSync(dir)) {
-    console.error(`path.dirname for ${checkoutPath}/${filepath} does not exist.`)
+  const dir = path.dirname(filepath);
+  console.error(`File ${filepath}`)
+  if (!fs.existsSync(path.join(checkoutPath, dir))) {
+    console.error(`path ${filepath}.dirname (${dir}) in ${checkoutPath} does not exist.`)
     return null;
   }
   if (dir === '.' || isPackageDir(config, dir)) {
+
+    console.error(`   Identified as "."`)
     return dir;
   }
   return getPackageDir(config, dir, checkoutPath);
