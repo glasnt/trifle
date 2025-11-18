@@ -43,11 +43,12 @@ runs:
 
           console.log(`Running script across ${paths}`)
 
-          let stdout = "";
-          let stderr = "";
-          let status = "";
           let failed = [];
           for (const path of paths) {
+
+            let stdout = "";
+            let stderr = "";
+            let status = "";
             const options = {};
             options.listeners = {
               stdout: (data) => { stdout += data.toString(); },
