@@ -40,18 +40,22 @@ runs:
             console.log("Nothing to do.");
           }
           const outputsAlways = ${{ inputs.outputs-always }};
+
+
+          let stdout = "";
+          let stderr = "";
           let failed = [];
           for (const path of paths) {
             const options = {};
             options.listeners = {
-              stdout: (data) => { stdout += data.toString(); },
-              stderr: (data) => { stderr += data.toString(); }
+              stdout: (data: Buffer) => { stdout += data.toString(); },
+              stderr: (data: Buffer) => { stderr += data.toString(); }
             };
             options.cwd = path;
 
-            const statusCode = await exec.exec("bash", ["-c", cmd], options);
+            const status = await exec.exec("bash", ["-c", cmd], options);
 
-            if (statusCode === 0) {
+            if (status === 0) {
                 console.log(`✅ [${path}]: ${cmd}`);
             } else {
                 console.log(`❌ [${path}]: ${cmd} (exit code ${status})`);
