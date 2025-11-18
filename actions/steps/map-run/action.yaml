@@ -79,6 +79,7 @@ runs:
               console.log('---- status ----');
               console.log(status || "");
             }
+            console.log("======================================================")
           }
           console.log("=== Summary ===");
           console.log(`  Passed: ${paths.length - failed.length}`);
