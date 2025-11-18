@@ -56,7 +56,8 @@ runs:
 
             if (p.error) {
               failed.push(path);
-              core.error(p.error)
+              core.error(p.error.message)
+              console.error(p.error)
               console.log(`🚫 [${path}]: ${cmd} (exit code ${status})`);
             } else if (status === 0) {
                 console.log(`✅ [${path}]: ${cmd}`);
