@@ -35,7 +35,7 @@ runs:
       with:
         script: |
           const cmd = "${{ inputs.command }}";
-          const paths = ${{ inputs.paths || ["."] }};
+          const paths = ${{ inputs.paths }};
           if (paths.length === 0) {
             console.log("Nothing to do.");
           }
