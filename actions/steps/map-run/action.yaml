@@ -65,18 +65,19 @@ runs:
                   console.log(`❌ [${path}]: ${cmd} (exit code ${status})`);
                   failed.push(path);
               }
+
+              if (outputsAlways || failed.includes(path)) {
+                console.log('---- stdout ----');
+                console.log(stdout || "");
+                console.log('---- stderr ----');
+                console.log(stderr || "");
+                console.log('---- status ----');
+                console.log(status || "");
+              }
             } catch (e) {
                 console.log(`🚫 [${path}]: ${cmd} failed to execute`);
+                console.log(e)
                 failed.push(path);
-            }
-
-            if (outputsAlways || failed.includes(path)) {
-              console.log('---- stdout ----');
-              console.log(stdout || "");
-              console.log('---- stderr ----');
-              console.log(stderr || "");
-              console.log('---- status ----');
-              console.log(status || "");
             }
           }
           console.log("=== Summary ===");
