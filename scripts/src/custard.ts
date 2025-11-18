@@ -201,12 +201,14 @@ export function matchPackages(config: Config, paths: string[], checkoutPath: str
 }
 
 export function* findPackages(config: Config, root: string): Generator<string> {
+  console.error("Finding Packages in", root)
   const excluded = asArray(config['exclude-packages']) || [];
   const files = fs.readdirSync(root, {withFileTypes: true});
   for (const file of files) {
     const fullPath = path.join(root, file.name);
     if (file.isDirectory()) {
       if (isPackageDir(config, fullPath) && !excluded.includes(fullPath)) {
+        console.error(`  ${fullPath} is a package directory.`)
         yield fullPath;
       }
       yield* findPackages(config, fullPath);
