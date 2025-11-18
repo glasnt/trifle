@@ -34,9 +34,6 @@ runs:
       uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
       with:
         script: |
-          const { exec } = await import("@actions/exec");
-
-
           const cmd = "${{ inputs.command }}";
           const paths = ${{ inputs.paths }};
           if (paths.length === 0) {
@@ -56,9 +53,9 @@ runs:
             };
             options.cwd = path;
 
-            const p = await exec.exec("bash", ["-c", cmd], options);
+            const p = exec.exec("bash", ["-c", cmd], options);
 
-            status = p.status;
+            status = p.exitCode;
             //stdout = p.stdout && p.stdout.toString("utf8");
             //stderr = p.stderr && p.stderr.toString("utf8");
 
