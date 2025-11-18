@@ -175,6 +175,7 @@ export function fileMatchesConfig(config: Config, filepath: string): boolean {
 export function matchPackages(config: Config, paths: string[], checkoutPath: string): string[] {
   const packages = new Set<string>();
   for (const filepath of paths) {
+    console.error("matchPackages:", filepath)
     if (!fileMatchesConfig(config, filepath)) {
       // The file doesn't match the config file, so skip it.
       continue;
@@ -194,6 +195,9 @@ export function matchPackages(config: Config, paths: string[], checkoutPath: str
     }
     packages.add(pkg);
   }
+  console.error("matchPackages after for loop (start)")
+  console.error(packages)
+  console.error("matchPackages after for loop (end)")
 
   // Return all the affected packages, removing any excluded ones.
   // Excluded packages must be exact full matches.
@@ -223,7 +227,6 @@ export function getPackageDir(config: Config, filepath: string, checkoutPath: st
     return null;
   }
   if (dir === '.' || isPackageDir(config, dir)) {
-
     console.error(`   Identified as "."`)
     return dir;
   }
