@@ -48,6 +48,8 @@ runs:
 
             const p = await exec.exec("bash", ["-c", cmd], {cwd: path});
 
+            console.log(p)
+
             status = p.exitCode;
             stdout = p.stdout && p.stdout.toString("utf8");
             stderr = p.stderr && p.stderr.toString("utf8");
