@@ -124,9 +124,7 @@ switch (process.env.CUSTARD_VERBOSE || 'info') {
  * @returns list of affected packages
  */
 export function affected(config: Config, diffs: string[], checkoutPath: string): string[] {
-  console.error(`affected: current directory ${process.cwd()}`);
   const packages = matchPackages(config, diffs, checkoutPath);
-  console.error("Packages: ", packages)
   if (packages.includes('.')) {
     console.error(
       '⚠️ One or more global files changed, all packages affected.',
@@ -177,7 +175,6 @@ export function fileMatchesConfig(config: Config, filepath: string): boolean {
 export function matchPackages(config: Config, paths: string[], checkoutPath: string): string[] {
   const packages = new Set<string>();
   for (const filepath of paths) {
-    console.error("matchPackages:", filepath)
     if (!fileMatchesConfig(config, filepath)) {
       // The file doesn't match the config file, so skip it.
       continue;
@@ -196,10 +193,6 @@ export function matchPackages(config: Config, paths: string[], checkoutPath: str
       console.error(`⚠️ Global file changed: ${pkg}`);
     }
     packages.add(pkg);
-  }
-  console.error("matchPackages after for loop (start)")
-  console.error(packages)
-  console.error("matchPackages after for loop (end)")
 
   // Return all the affected packages, removing any excluded ones.
   // Excluded packages must be exact full matches.
@@ -223,13 +216,10 @@ export function* findPackages(config: Config, root: string): Generator<string> {
 
 export function getPackageDir(config: Config, filepath: string, checkoutPath: string): string | null {
   const dir = path.dirname(filepath);
-  console.error(`File ${filepath}`)
   if (!fs.existsSync(path.join(checkoutPath, dir))) {
-    console.error(`path ${filepath}.dirname (${dir}) in ${checkoutPath} does not exist.`)
     return null;
   }
   if (dir === '.' || isPackageDir(config, dir)) {
-    console.error(`   Identified as "."`)
     return dir;
   }
   return getPackageDir(config, dir, checkoutPath);
