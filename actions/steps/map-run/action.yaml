@@ -41,6 +41,7 @@ runs:
           }
           const outputsAlways = ${{ inputs.outputs-always }};
 
+          console.log(`Running script across ${paths}`)
 
           let stdout = "";
           let stderr = "";
