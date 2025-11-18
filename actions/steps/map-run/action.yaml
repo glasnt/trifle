@@ -42,23 +42,16 @@ runs:
           const outputsAlways = ${{ inputs.outputs-always }};
           let failed = [];
           for (const path of paths) {
-            let stdout = "";
-            let stderr = "";
-            let status = "";
+            const options = {};
+            options.listeners = {
+              stdout: (data: Buffer) => { stdout += data.toString(); },
+              stderr: (data: Buffer) => { stderr += data.toString(); }
+            };
+            options.cwd = path;
 
-            const p = await exec.exec("bash", ["-c", cmd], {cwd: path});
+            const statusCode = await exec.exec("bash", ["-c", cmd], options);
 
-            console.log(p)
-
-            status = p.exitCode;
-            stdout = p.stdout && p.stdout.toString("utf8");
-            stderr = p.stderr && p.stderr.toString("utf8");
-
-            if (p.error) {
-              failed.push(path);
-              console.error(p.error)
-              console.log(`🚫 [${path}]: ${cmd} (exit code ${status})`);
-            } else if (status === 0) {
+            if (statusCode === 0) {
                 console.log(`✅ [${path}]: ${cmd}`);
             } else {
                 console.log(`❌ [${path}]: ${cmd} (exit code ${status})`);
