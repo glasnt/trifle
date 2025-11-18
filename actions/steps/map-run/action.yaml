@@ -48,7 +48,7 @@ runs:
 
 
             console.log(await exec.exec("pwd"))
-            console.log(await exec.exec("ls", [path]))
+            console.log(await exec.exec("ls", ["-R"]))
 
 
             const p = await exec.exec("bash", ["-c", cmd], {cwd: path});
