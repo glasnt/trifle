@@ -131,7 +131,9 @@ export function affected(config: Config, diffs: string[], checkoutPath: string):
     console.error(
       '⚠️ One or more global files changed, all packages affected.',
     );
-    return [...findPackages(config, checkoutPath)];
+    const allPackages = [...findPackages(config, checkoutPath)];
+    console.error("All Packages:", allPackages)
+    return allPackages
   }
   return packages;
 }
