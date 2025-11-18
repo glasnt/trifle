@@ -49,19 +49,14 @@ runs:
             let status = "";
 
             const p = spawnSync("bash", ["-c", cmd], {cwd: path});
-            console.error(p)
-            console.error(p.status)
-            console.error(p.stdout)
-            console.error(p.stderr)
 
             status = p.status;
             stdout = p.stdout && p.stdout.toString("utf8");
             stderr = p.stderr && p.stderr.toString("utf8");
 
-            error = p.error;
             if (p.error) {
-              core.error(p.error.message)
               failed.push(path);
+              core.error(p.error)
               console.log(`🚫 [${path}]: ${cmd} (exit code ${status})`);
             } else if (status === 0) {
                 console.log(`✅ [${path}]: ${cmd}`);
