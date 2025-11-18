@@ -42,16 +42,13 @@ runs:
             console.log("Nothing to do.");
           }
           const outputsAlways = ${{ inputs.outputs-always }};
-
-          console.error("bash exists: ", execSync("which bash").toString().trim())
-
           let failed = [];
           for (const path of paths) {
             let stdout = "";
             let stderr = "";
             let status = "";
             try {
-              const p = spawnSync("/usr/bin/bash", ["-c", cmd], {cwd: path});
+              const p = spawnSync("/usr/bin/bash", ["-c", cmd], {cwd: path, shell: true});
               console.error(p)
               console.error(p.status)
               console.error(p.stdout)
