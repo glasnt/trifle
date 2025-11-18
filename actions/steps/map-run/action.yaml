@@ -34,7 +34,8 @@ runs:
       uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
       with:
         script: |
-          const { spawnSync } = await import("child_process");
+          const { exec } = await import("@actions/exec");
+
 
           const cmd = "${{ inputs.command }}";
           const paths = ${{ inputs.paths }};
@@ -48,15 +49,21 @@ runs:
             let stderr = "";
             let status = "";
 
-            const p = spawnSync("bash", ["-c", cmd], {cwd: path});
+            const options = {};
+            options.listeners = {
+              stdout: (data: Buffer) => { stdout += data.toString();},
+              stderr: (data: Buffer) => { stderr += data.toString(); }
+            };
+            options.cwd = path;
+
+            const p = await exec.exec("bash", ["-c", cmd], options);
 
             status = p.status;
-            stdout = p.stdout && p.stdout.toString("utf8");
-            stderr = p.stderr && p.stderr.toString("utf8");
+            //stdout = p.stdout && p.stdout.toString("utf8");
+            //stderr = p.stderr && p.stderr.toString("utf8");
 
             if (p.error) {
               failed.push(path);
-              core.error(p.error.message)
               console.error(p.error)
               console.log(`🚫 [${path}]: ${cmd} (exit code ${status})`);
             } else if (status === 0) {
