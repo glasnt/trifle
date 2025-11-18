@@ -46,18 +46,12 @@ runs:
             let stderr = "";
             let status = "";
 
-            const options = {};
-            options.listeners = {
-              stdout: (data: Buffer) => { stdout += data.toString();},
-              stderr: (data: Buffer) => { stderr += data.toString(); }
-            };
-            options.cwd = path;
 
-            const p = exec.exec("bash", ["-c", cmd], options);
+            const p = await exec.exec("bash", ["-c", cmd], {cwd: path});
 
             status = p.exitCode;
-            //stdout = p.stdout && p.stdout.toString("utf8");
-            //stderr = p.stderr && p.stderr.toString("utf8");
+            stdout = p.stdout && p.stdout.toString("utf8");
+            stderr = p.stderr && p.stderr.toString("utf8");
 
             if (p.error) {
               failed.push(path);
