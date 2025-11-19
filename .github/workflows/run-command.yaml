@@ -54,7 +54,7 @@ jobs:
           # WIP: manual fork of map-run due to invocation issues.
           script: |
               const cmd = "${{ inputs.command }}";
-              const paths = ${{ inputs.paths }};
+              const paths = ${{ inputs.paths || [] }};
               if (paths.length === 0) {
                 core.notice("No paths detected. Nothing to do.")
               }
