@@ -123,7 +123,11 @@ switch (process.env.CUSTARD_VERBOSE || 'info') {
  * @param diffs list of files changed
  * @returns list of affected packages
  */
-export function affected(config: Config, diffs: string[], checkoutPath: string): string[] {
+export function affected(
+  config: Config,
+  diffs: string[],
+  checkoutPath: string,
+): string[] {
   const packages = matchPackages(config, diffs, checkoutPath);
   if (packages.includes('.')) {
     console.error(
@@ -170,7 +174,11 @@ export function fileMatchesConfig(config: Config, filepath: string): boolean {
   return matches(filepath, match) && !matches(filepath, ignore);
 }
 
-export function matchPackages(config: Config, paths: string[], checkoutPath: string): string[] {
+export function matchPackages(
+  config: Config,
+  paths: string[],
+  checkoutPath: string,
+): string[] {
   const packages = new Set<string>();
   for (const filepath of paths) {
     if (!fileMatchesConfig(config, filepath)) {
@@ -213,7 +221,11 @@ export function* findPackages(config: Config, root: string): Generator<string> {
   }
 }
 
-export function getPackageDir(config: Config, filepath: string, checkoutPath: string): string | null {
+export function getPackageDir(
+  config: Config,
+  filepath: string,
+  checkoutPath: string,
+): string | null {
   const dir = path.dirname(filepath);
   if (!fs.existsSync(path.join(checkoutPath, dir))) {
     return null;
@@ -844,7 +856,9 @@ function main(argv: string[]) {
   const mainUsage = usage('[affected | run | version | help] [options]');
   switch (argv[2]) {
     case 'affected': {
-      const usageRun = usage('affected <config-path> <diffs-file> <checkout-path>');
+      const usageRun = usage(
+        'affected <config-path> <diffs-file> <checkout-path>',
+      );
       const configPath = argv[3];
       if (!configPath) {
         console.error('Please provide the config file path.');
@@ -856,10 +870,12 @@ function main(argv: string[]) {
         console.error('Please provide the diffs file path.');
         throw new Error(usageRun);
       }
-      var checkoutPath = argv[5];
+      let checkoutPath = argv[5];
       if (!checkoutPath) {
-        console.error("No checkout path supplied. Assuming current directory ('.')")
-        checkoutPath = "."
+        console.error(
+          "No checkout path supplied. Assuming current directory ('.')",
+        );
+        checkoutPath = '.';
       }
       const diffs = fs.readFileSync(diffsFile, 'utf8').trim().split('\n');
       const packages = affected(config, diffs, checkoutPath);
