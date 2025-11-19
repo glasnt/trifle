@@ -1,0 +1,46 @@
+# Copyright 2025 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Custard Run
+description: Runs "custard.ts run" against all the paths, for the given command
+
+inputs:
+  config-file:
+    description: Path to the custard config file.
+    required: true
+  custard-command:
+    description: The custard command to run (defined in config.jsonc).
+    required: true
+  paths:
+    description: Comma-separated package paths instead of git diff.
+  custard-version:
+    description: Custard version to install.
+    default: v0.0.10
+  install-path:
+    description: Path to install the Custard script to.
+    default: custard.ts
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Custard
+      uses: glasnt/trifle/actions/steps/setup-custard@debugging-matchPackages
+      with:
+        install-path: ${{ inputs.install-path }}
+        version: debugging-matchPackages
+    - name: Run Command
+      uses: glasnt/trifle/actions/steps/map-run@debugging-matchPackages
+      with:
+        command: node ${{ inputs.install-path }} run ${{ inputs.config-file }} ${{ inputs.custard-command }}
+        paths: ${{ inputs.paths }}
