@@ -35,11 +35,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Setup Custard
-      uses: glasnt/trifle/actions/steps/setup-custard@debugging-matchPackages
-      with:
-        install-path: ${{ inputs.install-path }}
-        version: debugging-matchPackages
     - name: Run command
       uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
       with:
