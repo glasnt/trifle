@@ -39,6 +39,9 @@ runs:
       with:
         # WIP: manual fork of map-run due to invocation issues.
         script: |
+            await.exec("pwd");
+            await.exec("ls");
+
             const cmd = "${{ inputs.custard-command }}";
             const paths = ${{ inputs.paths }};
             if (paths.length === 0) {
@@ -48,7 +51,7 @@ runs:
             let failed = [];
             for (const path of paths) {
               try {
-                const status = await exec.exec("node", ["${{ inputs.install-path}}", "run", "${{ inputs.config-file }}", "${{ inputs.custard-command }}", path]);
+                const status = await exec.exec("node", ["${{ inputs.install-path }}", "run", "${{ inputs.config-file }}", "${{ inputs.custard-command }}", path]);
                 if (status === 0) {
                   console.log(`✅ [${path}]: ${cmd}`);
                 } else {

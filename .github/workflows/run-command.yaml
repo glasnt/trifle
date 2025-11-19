@@ -52,4 +52,5 @@ jobs:
         uses: glasnt/trifle/actions/steps/custard-run@debugging-matchPackages
         with:
           custard-command: ${{ inputs.command }}
+          install-path: ${{ inputs.install-path }}
           paths: ${{ inputs.paths }}
