@@ -50,7 +50,7 @@ jobs:
           version: debugging-matchPackages
       - uses: actions/checkout@v4
       - name: Run command
-        uses: glasnt/trifle/actions/steps/run-command@debugging-matchPackages
+        uses: glasnt/trifle/actions/steps/custard-run@debugging-matchPackages
         with:
-          command: ${{ inputs.command }}
+          custard-command: ${{ inputs.command }}
           paths: ${{ inputs.path }}
