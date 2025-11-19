@@ -52,4 +52,4 @@ jobs:
         uses: glasnt/trifle/actions/steps/custard-run@debugging-matchPackages
         with:
           custard-command: ${{ inputs.command }}
-          paths: ${{ inputs.path }}
+          paths: ${{ inputs.paths }}
