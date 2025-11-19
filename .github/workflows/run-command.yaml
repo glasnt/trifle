@@ -47,6 +47,9 @@ jobs:
         with:
           install-path: ${{ inputs.install-path }}
           version: debugging-matchPackages
+      - uses: actions/checkout@v4
+        with:
+          clean: false
       - name: Run command
         uses: glasnt/trifle/actions/steps/custard-run@debugging-matchPackages
         with:
