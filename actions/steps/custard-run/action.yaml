@@ -18,12 +18,13 @@ description: Runs "custard.ts run" against all the paths, for the given command
 inputs:
   config-file:
     description: Path to the custard config file.
-    required: true
+    default: .github/config.jsonc
   custard-command:
     description: The custard command to run (defined in config.jsonc).
     required: true
   paths:
     description: Comma-separated package paths instead of git diff.
+    required: true
   custard-version:
     description: Custard version to install.
     default: v0.0.10
