@@ -42,7 +42,6 @@ jobs:
   run_command:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Setup Custard
         uses: glasnt/trifle/actions/steps/setup-custard@debugging-matchPackages
         with:
