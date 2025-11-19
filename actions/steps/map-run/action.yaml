@@ -37,7 +37,7 @@ runs:
           const cmd = "${{ inputs.command }}";
           const paths = ${{ inputs.paths }};
           if (paths.length === 0) {
-            console.log("No paths to use. Nothing to do.");
+            core.notice("No paths detected. Nothing to do.")
           }
           const outputsAlways = ${{ inputs.outputs-always }};
 
