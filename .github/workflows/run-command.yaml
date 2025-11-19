@@ -32,7 +32,7 @@ on:
       custard-version:
         description: Custard version to install.
         type: string
-        default: debugging-matchPackages
+        default: v0.1.0
       install-path:
         description: Path to install the Custard script to.
         type: string
@@ -46,12 +46,12 @@ jobs:
         with:
           clean: false
       - name: Setup Custard
-        uses: glasnt/trifle/actions/steps/setup-custard@debugging-matchPackages
+        uses: glasnt/trifle/actions/steps/setup-custard@v0.1.0
         with:
           install-path: ${{ inputs.install-path }}
-          version: debugging-matchPackages
+          version: v0.1.0
       - name: Run command
-        uses: glasnt/trifle/actions/steps/custard-run@debugging-matchPackages
+        uses: glasnt/trifle/actions/steps/custard-run@v0.1.0
         with:
           custard-command: ${{ inputs.command }}
           install-path: ${{ inputs.install-path }}

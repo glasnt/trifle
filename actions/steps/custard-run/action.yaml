@@ -26,7 +26,7 @@ inputs:
     description: Comma-separated package paths instead of git diff.
   custard-version:
     description: Custard version to install.
-    default: debugging-matchPackages
+    default: v0.1.0
   install-path:
     description: Path to install the Custard script to.
     default: custard.ts

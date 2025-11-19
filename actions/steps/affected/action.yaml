@@ -52,10 +52,10 @@ runs:
   using: composite
   steps:
     - name: Setup Custard
-      uses: glasnt/trifle/actions/steps/setup-custard@debugging-matchPackages
+      uses: glasnt/trifle/actions/steps/setup-custard@v0.1.0
       with:
         install-path: ${{ inputs.install-path }}
-        version: debugging-matchPackages
+        version: v0.1.0
     # Find the affected packages.
     - name: Checkout the commit history
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
