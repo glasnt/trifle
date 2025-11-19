@@ -61,11 +61,12 @@ runs:
               if (status === 0) {
                   console.log(`✅ [${path}]: ${cmd}`);
               } else {
-                  console.log(`❌ [${path}]: ${cmd} (exit code ${status})`);
+                  console.log(`⛔️ [${path}]: ${cmd} (exit code ${status})`);
                   failed.push(path);
               }
             } catch (e) {
                 console.log(`❌ [${path}]: ${cmd} failed`);
+                console.error(e)
                 failed.push(path);
             }
 
