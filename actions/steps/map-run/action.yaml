@@ -54,7 +54,7 @@ runs:
             };
             options.cwd = path;
 
-            console.log(`\n\n#\n# $ ${path}\n# > ${cmd}\n#\n\n`)
+            console.log(`\n\n#\n# $ ${path}\n# > ${cmd}\n#\n`)
             try {
               const status = await exec.exec("bash", ["-c", cmd], options);
 
@@ -78,7 +78,6 @@ runs:
               console.log('---- status ----');
               console.log(status || "");
             }
-            console.log("=== Test complete ===")
           }
           console.log("=== Summary ===");
           console.log(`  Passed: ${paths.length - failed.length}`);
