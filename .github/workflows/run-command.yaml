@@ -42,14 +42,14 @@ jobs:
   run_command:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: false
       - name: Setup Custard
         uses: glasnt/trifle/actions/steps/setup-custard@debugging-matchPackages
         with:
           install-path: ${{ inputs.install-path }}
           version: debugging-matchPackages
-      - uses: actions/checkout@v4
-        with:
-          clean: false
       - name: Run command
         uses: glasnt/trifle/actions/steps/custard-run@debugging-matchPackages
         with:
