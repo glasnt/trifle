@@ -34,36 +34,49 @@ runs:
       uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
       with:
         script: |
-          const { spawnSync } = await import("node:child_process");
-
           const cmd = "${{ inputs.command }}";
           const paths = ${{ inputs.paths }};
           if (paths.length === 0) {
-            console.log("Nothing to do.");
+            core.notice("No paths detected. Nothing to do.")
           }
           const outputsAlways = ${{ inputs.outputs-always }};
 
           let failed = [];
           for (const path of paths) {
+
             let stdout = "";
             let stderr = "";
+            let status = "";
+            const options = {};
+            options.listeners = {
+              stdout: (data) => { stdout += data.toString(); },
+              stderr: (data) => { stderr += data.toString(); }
+            };
+            options.cwd = path;
+
+            console.log(`\n\n#\n# $ ${path}\n# > ${cmd}\n#\n`)
             try {
-              const p = spawnSync("bash", ["-c", cmd], {cwd: path});
-              console.log(`✅ [${path}]: ${cmd}`);
-              stdout = p.stdout && p.stdout.toString("utf8");
-              stderr = p.stderr && p.stderr.toString("utf8");
+              const status = await exec.exec("bash", ["-c", cmd], options);
+
+              if (status === 0) {
+                  console.log(`✅ [${path}]: ${cmd}`);
+              } else {
+                  console.log(`⛔️ [${path}]: ${cmd} (exit code ${status})`);
+                  failed.push(path);
+              }
             } catch (e) {
-              failed.push(path);
-              console.log(`❌ [${path}]: ${cmd} (exit code ${e.status})`);
-              core.error(e.message);
-              stdout = e.stdout && e.stdout.toString("utf8");
-              stderr = e.stderr && e.stderr.toString("utf8");
+                console.log(`❌ [${path}]: ${cmd} failed`);
+                console.error(e)
+                failed.push(path);
             }
+
             if (outputsAlways || failed.includes(path)) {
               console.log('---- stdout ----');
               console.log(stdout || "");
               console.log('---- stderr ----');
               console.log(stderr || "");
+              console.log('---- status ----');
+              console.log(status || "");
             }
           }
           console.log("=== Summary ===");

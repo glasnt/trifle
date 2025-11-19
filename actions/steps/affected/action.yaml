@@ -52,9 +52,10 @@ runs:
   using: composite
   steps:
     - name: Setup Custard
-      uses: glasnt/trifle/actions/steps/setup-custard@v0.0.10
+      uses: glasnt/trifle/actions/steps/setup-custard@v0.1.0
       with:
         install-path: ${{ inputs.install-path }}
+        version: v0.1.0
     # Find the affected packages.
     - name: Checkout the commit history
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -84,7 +85,7 @@ runs:
       id: custard
       shell: bash
       run: |
-        node ${{ inputs.install-path }} affected ${{ inputs.checkout-path }}/${{ inputs.config-file }} diffs.txt | tee paths.txt
+        node ${{ inputs.install-path }} affected ${{ inputs.checkout-path }}/${{ inputs.config-file }} diffs.txt ${{ inputs.checkout-path }} | tee paths.txt
         PATHS=$(jq -Rcn '[inputs]' paths.txt)
         echo "paths=$PATHS" >> $GITHUB_OUTPUT
         echo "num-paths=$(echo $PATHS | jq length)" >> $GITHUB_OUTPUT

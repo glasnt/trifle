@@ -123,14 +123,17 @@ switch (process.env.CUSTARD_VERBOSE || 'info') {
  * @param diffs list of files changed
  * @returns list of affected packages
  */
-export function affected(config: Config, diffs: string[]): string[] {
-  console.log(`affected: current directory ${process.cwd()}`);
-  const packages = matchPackages(config, diffs);
+export function affected(
+  config: Config,
+  diffs: string[],
+  checkoutPath: string,
+): string[] {
+  const packages = matchPackages(config, diffs, checkoutPath);
   if (packages.includes('.')) {
     console.error(
       '⚠️ One or more global files changed, all packages affected.',
     );
-    return [...findPackages(config, '.')];
+    return [...findPackages(config, checkoutPath)];
   }
   return packages;
 }
@@ -171,14 +174,18 @@ export function fileMatchesConfig(config: Config, filepath: string): boolean {
   return matches(filepath, match) && !matches(filepath, ignore);
 }
 
-export function matchPackages(config: Config, paths: string[]): string[] {
+export function matchPackages(
+  config: Config,
+  paths: string[],
+  checkoutPath: string,
+): string[] {
   const packages = new Set<string>();
   for (const filepath of paths) {
     if (!fileMatchesConfig(config, filepath)) {
       // The file doesn't match the config file, so skip it.
       continue;
     }
-    const pkg = getPackageDir(config, filepath);
+    const pkg = getPackageDir(config, filepath, checkoutPath);
     if (pkg === null) {
       // The package directory does not exist, it might have been removed.
       // We can't run anything on it, so skip it.
@@ -207,22 +214,26 @@ export function* findPackages(config: Config, root: string): Generator<string> {
     const fullPath = path.join(root, file.name);
     if (file.isDirectory()) {
       if (isPackageDir(config, fullPath) && !excluded.includes(fullPath)) {
-        yield fullPath;
+        yield path.relative(root, fullPath);
       }
       yield* findPackages(config, fullPath);
     }
   }
 }
 
-export function getPackageDir(config: Config, filepath: string): string | null {
+export function getPackageDir(
+  config: Config,
+  filepath: string,
+  checkoutPath: string,
+): string | null {
   const dir = path.dirname(filepath);
-  if (!fs.existsSync(dir)) {
+  if (!fs.existsSync(path.join(checkoutPath, dir))) {
     return null;
   }
   if (dir === '.' || isPackageDir(config, dir)) {
     return dir;
   }
-  return getPackageDir(config, dir);
+  return getPackageDir(config, dir, checkoutPath);
 }
 
 export function isPackageDir(config: Config, dir: string): boolean {
@@ -845,7 +856,9 @@ function main(argv: string[]) {
   const mainUsage = usage('[affected | run | version | help] [options]');
   switch (argv[2]) {
     case 'affected': {
-      const usageRun = usage('affected <config-path> <diffs-file>');
+      const usageRun = usage(
+        'affected <config-path> <diffs-file> <checkout-path>',
+      );
       const configPath = argv[3];
       if (!configPath) {
         console.error('Please provide the config file path.');
@@ -857,8 +870,15 @@ function main(argv: string[]) {
         console.error('Please provide the diffs file path.');
         throw new Error(usageRun);
       }
+      let checkoutPath = argv[5];
+      if (!checkoutPath) {
+        console.error(
+          "No checkout path supplied. Assuming current directory ('.')",
+        );
+        checkoutPath = '.';
+      }
       const diffs = fs.readFileSync(diffsFile, 'utf8').trim().split('\n');
-      const packages = affected(config, diffs);
+      const packages = affected(config, diffs, checkoutPath);
       for (const pkg of packages) {
         console.log(pkg);
       }

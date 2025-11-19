@@ -1,0 +1,58 @@
+# Copyright 2025 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+## Re-usable workflow: "Run Command"
+##  - runs a "node custard.ts run (config) COMMAND PATH"
+
+on:
+  workflow_call:
+    inputs:
+      config-file:
+        description: Path to the custard config file.
+        type: string
+        default: .github/config.jsonc
+      command:
+        description: The custard command to run (defined in config.jsonc).
+        type: string
+        required: true
+      paths:
+        description: Comma-separated package paths instead of git diff.
+        type: string
+      custard-version:
+        description: Custard version to install.
+        type: string
+        default: v0.1.0
+      install-path:
+        description: Path to install the Custard script to.
+        type: string
+        default: custard.ts
+
+jobs:
+  run_command:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: false
+      - name: Setup Custard
+        uses: glasnt/trifle/actions/steps/setup-custard@v0.1.0
+        with:
+          install-path: ${{ inputs.install-path }}
+          version: v0.1.0
+      - name: Run command
+        uses: glasnt/trifle/actions/steps/custard-run@v0.1.0
+        with:
+          custard-command: ${{ inputs.command }}
+          install-path: ${{ inputs.install-path }}
+          paths: ${{ inputs.paths }}

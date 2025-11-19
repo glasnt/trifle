@@ -384,17 +384,26 @@ describe('getPackageDir', () => {
   const config: custard.Config = {'package-file': 'package-file.txt'};
   it('path does not exist', () => {
     console.log(' --- getPackageDir path does not exist');
-    expect(custard.getPackageDir(config, 'path/does-not-exist')).to.be.null;
+    expect(custard.getPackageDir(config, 'path/does-not-exist', '.')).to.be
+      .null;
   });
   it('global package', () => {
     console.log(' --- getPackageDir global package');
     expect(
-      custard.getPackageDir(config, 'test/affected/no-package-file/file.txt'),
+      custard.getPackageDir(
+        config,
+        'test/affected/no-package-file/file.txt',
+        '.',
+      ),
     ).equals('.');
   });
   it('local package', () => {
     expect(
-      custard.getPackageDir(config, 'test/affected/valid-package/file.txt'),
+      custard.getPackageDir(
+        config,
+        'test/affected/valid-package/file.txt',
+        '.',
+      ),
     ).equals('test/affected/valid-package');
   });
   it('diff in subdirectory', () => {
@@ -402,6 +411,7 @@ describe('getPackageDir', () => {
       custard.getPackageDir(
         config,
         'test/affected/valid-package/path/to/file.txt',
+        '.',
       ),
     ).equals('test/affected/valid-package');
   });
@@ -410,6 +420,7 @@ describe('getPackageDir', () => {
       custard.getPackageDir(
         config,
         'test/affected/valid-package/subdir/subpackage/file.txt',
+        '.',
       ),
     ).equals('test/affected/valid-package/subdir/subpackage');
   });
@@ -455,15 +466,15 @@ describe('matchPackages', () => {
   };
   it('does not match', () => {
     const diffs = ['test/affected/valid-package/file.md'];
-    expect(custard.matchPackages(config, diffs)).to.deep.equals([]);
+    expect(custard.matchPackages(config, diffs, '.')).to.deep.equals([]);
   });
   it('does not exist', () => {
     const diffs = ['path/does/not/exist/file.txt'];
-    expect(custard.matchPackages(config, diffs)).to.deep.equals([]);
+    expect(custard.matchPackages(config, diffs, '.')).to.deep.equals([]);
   });
   it('matches', () => {
     const diffs = ['test/affected/valid-package/file.txt'];
-    expect(custard.matchPackages(config, diffs)).to.deep.equals([
+    expect(custard.matchPackages(config, diffs, '.')).to.deep.equals([
       'test/affected/valid-package',
     ]);
   });
@@ -473,17 +484,17 @@ describe('matchPackages', () => {
       'test/affected/valid-package/file2.txt',
       'test/affected/valid-package/path/to/file3.txt',
     ];
-    expect(custard.matchPackages(config, diffs)).to.deep.equals([
+    expect(custard.matchPackages(config, diffs, '.')).to.deep.equals([
       'test/affected/valid-package',
     ]);
   });
   it('matches global change', () => {
     const diffs = ['test/affected/no-package-file/file.txt'];
-    expect(custard.matchPackages(config, diffs)).to.deep.equals(['.']);
+    expect(custard.matchPackages(config, diffs, '.')).to.deep.equals(['.']);
   });
   it('matches but excluded', () => {
     const diffs = ['test/affected/excluded/file.txt'];
-    expect(custard.matchPackages(config, diffs)).to.deep.equals([]);
+    expect(custard.matchPackages(config, diffs, '.')).to.deep.equals([]);
   });
 });
 
@@ -507,13 +518,13 @@ describe('affected', () => {
   };
   it('affected one', () => {
     const diffs = ['test/affected/valid-package/file.txt'];
-    expect(custard.affected(config, diffs)).to.deep.equals([
+    expect(custard.affected(config, diffs, '.')).to.deep.equals([
       'test/affected/valid-package',
     ]);
   });
   it('affected all', () => {
     const diffs = ['test/affected/no-package-file/file.txt'];
-    expect(custard.affected(config, diffs)).to.deep.equals([
+    expect(custard.affected(config, diffs, '.')).to.deep.equals([
       'test/affected/valid-package',
       'test/affected/valid-package/subdir/subpackage',
     ]);
