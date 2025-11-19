@@ -39,8 +39,8 @@ runs:
       with:
         # WIP: manual fork of map-run due to invocation issues.
         script: |
-            await.exec("pwd");
-            await.exec("ls");
+            await exec.exec("pwd");
+            await exec.exec("ls");
 
             const cmd = "${{ inputs.custard-command }}";
             const paths = ${{ inputs.paths }};
