@@ -29,11 +29,10 @@ on:
       paths:
         description: Comma-separated package paths instead of git diff.
         type: string
-        required: true
       custard-version:
         description: Custard version to install.
         type: string
-        default: v0.0.10
+        default: debugging-matchPackages
       install-path:
         description: Path to install the Custard script to.
         type: string
