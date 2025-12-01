@@ -65,6 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       statuses: write
+      actions: read
     outputs:
       paths: ${{ steps.custard.outputs.paths }}
       num-paths: ${{ steps.custard.outputs.num-paths }}
